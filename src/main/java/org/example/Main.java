@@ -37,8 +37,8 @@ public class Main {
         double res = functions.bis();
         System.out.println(res);
         Functions f = new Functions(-6,6,1,2,200);
-        System.out.println(f.bis());
+        System.out.println("Test ite " + f.bis());
         Functions f2 = new Functions(-6,6,1,1,0.000000000001);
-        System.out.println(f2.bis());
+        System.out.println("Test eps " + f2.bis());
     }
 }

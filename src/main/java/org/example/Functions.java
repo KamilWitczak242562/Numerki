@@ -49,7 +49,7 @@ public class Functions {
                     } else break;
                 }
             } else if (stop == 2) {
-                while (kroki == ite) {
+                while (kroki != ite) {
                     sr = (a + b) / 2;
                     if (f(a) * f(sr) < 0) {
                         b = sr;
