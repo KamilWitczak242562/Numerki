@@ -1,20 +1,34 @@
 package org.example;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartUtils;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.statistics.HistogramDataset;
-
-import java.io.File;
+import java.awt.*;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         Scanner scan = new Scanner(System.in);
+        Func func = null;
         Functions functions = null;
         System.out.println("Proszę wybrać funkcję:");
+        System.out.println("1. Wielomian");
+        System.out.println("2. Trygonometryczna");
+        System.out.println("3. Wykładnicza");
+        System.out.println("4. Złożona");
         int chooseFunction = scan.nextInt();
+        switch (chooseFunction) {
+            case 1:
+                func = new Polynomial();
+                break;
+            case 2:
+                func = new Trigonometric();
+                break;
+            case 3:
+                func = new Exponent();
+                break;
+            case 4:
+                func = new Complex();
+                break;
+        }
         System.out.println("Proszę podać dolny przedział:");
         double chooseDoubleLow = scan.nextDouble();
         System.out.println("Proszę podać górny przedział:");
@@ -28,17 +42,21 @@ public class Main {
         if (chooseStop == 1) {
             System.out.println("Proszę podać epsilon:");
             chooseEps = scan.nextDouble();
-            functions = new Functions(chooseDoubleLow, chooseDoubleHigh, chooseFunction, chooseStop, chooseEps);
+            functions = new Functions(chooseDoubleLow, chooseDoubleHigh, func, chooseStop, chooseEps);
         } else if (chooseStop == 2) {
             System.out.println("Proszę podać ilość iteracji:");
             chooseIte = scan.nextInt();
-            functions = new Functions(chooseDoubleLow, chooseDoubleHigh, chooseFunction, chooseStop, chooseIte);
+            functions = new Functions(chooseDoubleLow, chooseDoubleHigh, func, chooseStop, chooseIte);
         }
-        double res = functions.bis();
-        System.out.println(res);
-        Functions f = new Functions(-6,6,1,2,200);
-        System.out.println("Test ite " + f.bis());
-        Functions f2 = new Functions(-6,6,1,1,0.000000000001);
-        System.out.println("Test eps " + f2.bis());
+        double resBis = functions.bis();
+        System.out.println("Wyniki metodą bisekcji: " + resBis);
+        double resTan = functions.tan();
+        System.out.println("Wyniki metodą stycznych: " + resTan);
+
+        Func finalFunc = func;
+        EventQueue.invokeLater(() -> {
+            var fun = new DrawFunction(chooseDoubleLow, chooseDoubleHigh, finalFunc, resBis, resTan);
+            fun.setVisible(true);
+        });
     }
 }

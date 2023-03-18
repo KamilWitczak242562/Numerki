@@ -1,59 +1,53 @@
 package org.example;
 
+import java.lang.reflect.Method;
+
 import static java.lang.Math.pow;
 
 public class Functions {
     private double a;
     private double b;
-    double epsilon;
+    private double epsilon;
+    private int stop;
+    private int ite;
+    private Func function;
 
-    int funkcja;
-
-    int stop;
-
-    int ite;
-
-
-    public Functions(double a, double b, int funkcja, int stop, double epsilon) {
+    public Functions(double a, double b, Func function , int stop, double epsilon) {
         this.a = a;
         this.b = b;
         this.epsilon = epsilon;
-        this.funkcja = funkcja;
+        this.function = function;
         this.stop = stop;
     }
 
-    public Functions(double a, double b, int funkcja, int stop, int ite) {
+    public Functions(double a, double b, Func function, int stop, int ite) {
         this.a = a;
         this.b = b;
-        this.funkcja = funkcja;
+        this.function = function;
         this.stop = stop;
         this.ite = ite;
-    }
-
-    public double f(double x) {
-        return pow(x, 3) + pow(x, 2) - 3;
     }
 
     public double bis() {
         double sr;
         int kroki = 0;
-        if (f(a) * f(b) < 0) {
+        if (function.operation(a) * function.operation(b) < 0) {
             sr = a;
             if (stop == 1) {
-                while ((b - a) > epsilon) {
+                while (function.operation(b)> epsilon) {
                     sr = (a + b) / 2;
-                    if (f(a) * f(sr) < 0) {
+                    if (function.operation(a) * function.operation(sr) < 0) {
                         b = sr;
-                    } else if (f(b) * f(sr) < 0) {
+                    } else if (function.operation(b) * function.operation(sr) < 0) {
                         a = sr;
                     } else break;
                 }
             } else if (stop == 2) {
                 while (kroki != ite) {
                     sr = (a + b) / 2;
-                    if (f(a) * f(sr) < 0) {
+                    if (function.operation(a) * function.operation(sr) < 0) {
                         b = sr;
-                    } else if (f(b) * f(sr) < 0) {
+                    } else if (function.operation(b) * function.operation(sr) < 0) {
                         a = sr;
                     } else break;
                     kroki++;
@@ -63,5 +57,17 @@ public class Functions {
             sr = 0;
         }
         return sr;
+    }
+
+    public double tan() {
+        return  0;
+    }
+    public double horner(int poly[], int n, int x) {
+        int result = poly[0];
+
+        for (int i = 1; i < n; i++)
+            result = result * x + poly[i];
+
+        return result;
     }
 }
