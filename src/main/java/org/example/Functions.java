@@ -2,6 +2,7 @@ package org.example;
 
 import java.lang.reflect.Method;
 
+import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 
 public class Functions {
@@ -12,7 +13,7 @@ public class Functions {
     private int ite;
     private Func function;
 
-    public Functions(double a, double b, Func function , int stop, double epsilon) {
+    public Functions(double a, double b, Func function, int stop, double epsilon) {
         this.a = a;
         this.b = b;
         this.epsilon = epsilon;
@@ -31,43 +32,45 @@ public class Functions {
     public double bis() {
         double sr;
         int kroki = 0;
-        if (function.operation(a) * function.operation(b) < 0) {
-            sr = a;
-            if (stop == 1) {
-                while (function.operation(b)> epsilon) {
-                    sr = (a + b) / 2;
-                    if (function.operation(a) * function.operation(sr) < 0) {
-                        b = sr;
-                    } else if (function.operation(b) * function.operation(sr) < 0) {
-                        a = sr;
-                    } else break;
-                }
-            } else if (stop == 2) {
-                while (kroki != ite) {
-                    sr = (a + b) / 2;
-                    if (function.operation(a) * function.operation(sr) < 0) {
-                        b = sr;
-                    } else if (function.operation(b) * function.operation(sr) < 0) {
-                        a = sr;
-                    } else break;
-                    kroki++;
+        sr = (a + b) / 2;
+        if (stop == 1) {
+            while (abs(function.operation(sr)) > epsilon) {
+                sr = (a + b) / 2;
+                if (function.operation(b) * function.operation(sr) < 0) {
+                    a = sr;
+                } else if (function.operation(a) * function.operation(sr) < 0) {
+                    b = sr;
                 }
             }
-        } else {
-            sr = 0;
+        } else if (stop == 2) {
+            while (kroki != ite) {
+                sr = (a + b) / 2;
+                if (function.operation(b) * function.operation(sr) < 0) {
+                    a = sr;
+                } else if (function.operation(a) * function.operation(sr) < 0) {
+                    b = sr;
+                }
+                kroki++;
+            }
+        }
+        return sr;
+}
+
+    public double tan() {
+        double sr;
+        int kroki = 0;
+        sr = a;
+        if (stop == 1) {
+            while (abs(function.operation(sr)) > epsilon) {
+                sr -= function.operation(sr) / function.derivative(sr);
+            }
+        } else if (stop == 2) {
+            while (kroki != ite) {
+                sr -= function.operation(sr) / function.derivative(sr);
+                kroki++;
+            }
         }
         return sr;
     }
 
-    public double tan() {
-        return  0;
-    }
-    public double horner(int poly[], int n, int x) {
-        int result = poly[0];
-
-        for (int i = 1; i < n; i++)
-            result = result * x + poly[i];
-
-        return result;
-    }
 }

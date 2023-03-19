@@ -1,15 +1,15 @@
 package org.example;
 
-public class Polynomial implements Func{
+public class Polynomial implements Func {
 
     @Override
     public double operation(double x) {
-        return ourPow.pow(x, 3) + ourPow.pow(x, 2) - 3;
+        return x * x * x + x * x - 3;
     }
 
     @Override
     public double derivative(double x) {
-        return 3 * ourPow.pow(x, 2) + 2 * x;
+        return 3 * x * x + 2 * x;
     }
 
     @Override

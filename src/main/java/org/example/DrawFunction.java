@@ -102,17 +102,32 @@ public class DrawFunction extends JFrame {
         marker.setPaint(Color.black);
         marker.setStroke(new java.awt.BasicStroke(2.5f));
 
-        plot.addDomainMarker(marker);
-        plot.addRangeMarker(marker);
+        plot.addDomainMarker(marker); // X
+        plot.addRangeMarker(marker); // Y
 
-        XYTextAnnotation resB = new XYTextAnnotation("Wynik bisekcji: " + df.format(resBis), resBis, -6);
-        XYTextAnnotation resT = new XYTextAnnotation("Wynik stycznych: " + df.format(resTan), resTan, 6);
-        resB.setFont(new Font("Serif", Font.PLAIN, 12));
-        resT.setFont(new Font("Serif", Font.PLAIN, 12));
-        resB.setTextAnchor(TextAnchor.BASELINE_CENTER);
-        resT.setTextAnchor(TextAnchor.BASELINE_CENTER);
-        plot.addAnnotation(resB);
-        plot.addAnnotation(resT);
+        try {
+            if (func.getClass() == Class.forName(Trigonometric.class.getName()) || func.getClass() == Class.forName(Complex.class.getName())) {
+                XYTextAnnotation resB = new XYTextAnnotation("Wynik bisekcji: " + df.format(resBis), resBis, -1);
+                XYTextAnnotation resT = new XYTextAnnotation("Wynik stycznych: " + df.format(resTan), resTan, 1);
+                resB.setFont(new Font("Serif", Font.PLAIN, 12));
+                resT.setFont(new Font("Serif", Font.PLAIN, 12));
+                resB.setTextAnchor(TextAnchor.BASELINE_CENTER);
+                resT.setTextAnchor(TextAnchor.BASELINE_CENTER);
+                plot.addAnnotation(resB);
+                plot.addAnnotation(resT);
+            } else {
+                XYTextAnnotation resB = new XYTextAnnotation("Wynik bisekcji: " + df.format(resBis), resBis, -20);
+                XYTextAnnotation resT = new XYTextAnnotation("Wynik stycznych: " + df.format(resTan), resTan, 15);
+                resB.setFont(new Font("Serif", Font.PLAIN, 12));
+                resT.setFont(new Font("Serif", Font.PLAIN, 12));
+                resB.setTextAnchor(TextAnchor.BASELINE_CENTER);
+                resT.setTextAnchor(TextAnchor.BASELINE_CENTER);
+                plot.addAnnotation(resB);
+                plot.addAnnotation(resT);
+            }
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         chart.setTitle(new TextTitle("Function",
                         new Font("Serif", java.awt.Font.BOLD, 18)
